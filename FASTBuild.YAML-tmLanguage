@@ -1,0 +1,292 @@
+# FASTBuild 0.99 textmate grammar
+---
+name: FASTBuild
+fileTypes: [bff]
+scopeName: source.fastbuild
+uuid: a9be4cc8-e0e4-42de-a8b9-e12c17b74a04
+
+patterns: 
+- include: '#comments'
+- include: '#double-quoted-strings'
+- include: '#single-quoted-strings'
+- include: '#block-braces'
+- include: '#block-parens'
+- include: '#block-brackets'
+- include: '#separator'
+- include: '#operators'
+- include: '#keywords'
+- include: '#constants'
+- include: '#builtin-defines'
+- include: '#builtin-variables'
+- include: '#builtin-properties'
+- include: '#functions'
+- include: '#variables'
+- include: '#preprocessor-other'
+- include: '#preprocessor-include'
+- include: '#preprocessor-ifexist'
+- include: '#preprocessor-if'
+- include: '#preprocessor-define'
+- include: '#preprocessor-import'
+
+repository:
+  comments:
+    name: comment.line.double-slash.fastbuild
+    match: (//|;).*
+
+  quoted-substitutions:
+    name: constant.character.escape.fastbuild
+    match: \$[\w]+\$|%\d
+
+  double-quoted-strings:
+    name: string.quoted.double.fastbuild
+    begin: '"'
+    end: '"'
+    patterns:
+    - include: '#quoted-substitutions'
+
+  single-quoted-strings:
+    name: string.quoted.single.fastbuild
+    begin: "'"
+    end: "'"
+    patterns:
+    - include: '#quoted-substitutions'
+
+  block-braces:
+    name: meta.braces.fastbuild
+    begin: \{
+    beginCaptures:
+      '0': { name: punctuation.section.braces.begin.fastbuild }
+    end: \}
+    endCaptures:
+      '0': { name: punctuation.section.braces.end.fastbuild }
+    patterns:
+    - include: '$self'
+
+  block-parens:
+    name: meta.parens.fastbuild
+    begin: \(
+    beginCaptures:
+      '0': { name: punctuation.section.parens.begin.fastbuild }
+    end: \)
+    endCaptures:
+      '0': { name: punctuation.section.parens.end.fastbuild }
+    patterns:
+    - include: '$self'
+
+  block-brackets:
+    name: meta.brackets.fastbuild
+    begin: \[
+    beginCaptures:
+      '0': { name: punctuation.section.brackets.begin.fastbuild }
+    end: \]
+    endCaptures:
+      '0': { name: punctuation.section.brackets.end.fastbuild }
+    patterns:
+    - include: '$self'
+
+  separator:
+    name: punctuation.separator.fastbuild
+    match: \,
+
+  operators:
+    name: keyword.operator.fastbuild
+    match: (\+|-|\+=|-=|=|==|!)
+
+  keywords:
+    name: keyword.control.fastbuild
+    match: \b(not|in)\b
+
+  constants:
+    name: constant.language.fastbuild
+    match: \b(true|false)\b
+
+  builtin-defines:
+    name: support.constant.fastbuild
+    match: \b(__LINUX__|__OSX__|__WINDOWS__)\b
+
+  builtin-variables:
+    name: variable.language.fastbuild
+    match: \.(_CURRENT_BFF_DIR_|_FASTBUILD_VERSION_STRING_|_FASTBUILD_VERSION_|_WORKING_DIR_)\b
+
+  builtin-properties-alias:
+    name: variable.language.fastbuild
+    match: \.(Hidden|Targets)\b
+
+  builtin-properties-compiler:
+    name: variable.language.fastbuild
+    match: \.(AllowDistribution|ClangRewriteIncludes|CompilerFamily|CustomEnvironmentVariables|Environment|Executable|ExecutableRootPath|ExtraFiles|SimpleDistributionMode|UseLightCache_Experimental|VS2012EnumBugFix)\b
+
+  builtin-properties-copy:
+    name: variable.language.fastbuild
+    match: \.(Dest|PreBuildDependencies|Source|SourceBasePath)\b
+
+  builtin-properties-copydir:
+    name: variable.language.fastbuild
+    match: \.(Dest|PreBuildDependencies|SourceExcludePaths|SourcePaths|SourcePathsPattern|SourcePathsRecurse)\b
+
+  builtin-properties-csassembly:
+    name: variable.language.fastbuild
+    match: \.(Compiler|CompilerInputExcludedFiles|CompilerInputExcludePath|CompilerInputExcludePattern|CompilerInputFiles|CompilerInputPath|CompilerInputPathRecurse|CompilerInputPattern|CompilerOptions|CompilerOutput|CompilerReferences|PreBuildDependencies)\b
+
+  builtin-properties-dll:
+    name: variable.language.fastbuild
+    match: \.(Environment|Libraries|Linker|LinkerAssemblyResources|LinkerLinkObjects|LinkerOptions|LinkerOutput|LinkerStampExe|LinkerStampExeArgs|LinkerType|PreBuildDependencies)\b
+
+  builtin-properties-exec:
+    name: variable.language.fastbuild
+    match: \.(ExecAlways|ExecArguments|ExecExecutable|ExecInput|ExecInputExcludedFiles|ExecInputExcludePath|ExecInputExcludePattern|ExecInputPath|ExecInputPathRecurse|ExecInputPattern|ExecOutput|ExecReturnCode|ExecUseStdOutAsOutput|ExecWorkingDir|PreBuildDependencies)\b
+
+  builtin-properties-executable:
+    name: variable.language.fastbuild
+    match: \.(Environment|Libraries|Linker|LinkerAssemblyResources|LinkerLinkObjects|LinkerOptions|LinkerOutput|LinkerStampExe|LinkerStampExeArgs|LinkerType|PreBuildDependencies)\b
+
+  builtin-properties-library:
+    name: variable.language.fastbuild
+    match: \.(AllowCaching|AllowDistribution|Compiler|CompilerForceUsing|CompilerInputExcludePath|CompilerInputExcludePattern|CompilerInputExcludedFiles|CompilerInputFiles|CompilerInputFilesRoot|CompilerInputPath|CompilerInputPathRecurse|CompilerInputPattern|CompilerInputUnity|CompilerOptions|CompilerOutputExtension|CompilerOutputPath|CompilerOutputPrefix|Environment|Hidden|Librarian|LibrarianAdditionalInputs|LibrarianOptions|LibrarianOutput|PCHInputFile|PCHOptions|PCHOutputFile|PreBuildDependencies|Preprocessor|PreprocessorOptions)\b
+
+  builtin-properties-objectlist:
+    name: variable.language.fastbuild
+    match: \.(AllowCaching|AllowDistribution|Compiler|CompilerForceUsing|CompilerInputAllowNoFiles|CompilerInputExcludePat|CompilerInputExcludePattern|CompilerInputExcludedFiles|CompilerInputFiles|CompilerInputFilesRoot|CompilerInputPath|CompilerInputPathRecurse|CompilerInputPattern|CompilerInputUnity|CompilerOptions|CompilerOutputExtension|CompilerOutputKeepBaseExtension|CompilerOutputPath|CompilerOutputPrefix|Hidden|PCHInputFile|PCHOptions|PCHOutputFile|PreBuildDependencies|Preprocessor|PreprocessorOptions)\b
+
+  builtin-properties-removedir:
+    name: variable.language.fastbuild
+    match: \.(PreBuildDependencies|RemoveExcludePaths|RemovePaths|RemovePathsRecurse|RemovePatterns)\b
+
+  builtin-properties-settings:
+    name: variable.language.fastbuild
+    match: \.(CachePath|CachePathMountPoint|CachePluginDLL|DisableDBMigration|DistributableJobMemoryLimitMiB|Environment|WorkerConnectionLimit|Workers)\b
+
+  builtin-properties-test:
+    name: variable.language.fastbuild
+    match: \.(PreBuildDependencies|TestAlwaysShowOutput|TestArguments|TestExecutable|TestInput|TestInputExcludePath|TestInputExcludePattern|TestInputExcludedFiles|TestInputPath|TestInputPathRecurse|TestInputPattern|TestOutput|TestTimeOut|TestWorkingDir)\b
+
+  builtin-properties-unity:
+    name: variable.language.fastbuild
+    match: \.(Hidden|PreBuildDependencies|UnityInputExcludePath|UnityInputExcludePattern|UnityInputExcludedFiles|UnityInputFiles|UnityInputIsolateWritableFiles|UnityInputIsolateWritableFilesLimit|UnityInputIsolatedFiles|UnityInputObjectLists|UnityInputPath|UnityInputPathRecurse|UnityInputPattern|UnityNumFiles|UnityOutputPath|UnityOutputPattern|UnityPCH)\b
+
+  builtin-properties-vcxproject:
+    name: variable.language.fastbuild
+    match: \.(ApplicationEnvironment|DefaultLanguage|ProjectAllowedFileExtensions|ProjectBasePath|ProjectConfigs|ProjectFileTypes|ProjectFiles|ProjectFilesToExclude|ProjectGuid|ProjectInputPaths|ProjectInputPathsExclude|ProjectOutput|ProjectPatternToExclude|ProjectProjectImports|ProjectProjectReferences|ProjectReferences|ProjectSccEntrySAK|RootNamespace)\b
+
+  builtin-properties-vcxproject-filetype:
+    name: variable.language.fastbuild
+    match: \.(FileType|Pattern)\b
+
+  builtin-properties-vcxproject-import:
+    name: variable.language.fastbuild
+    match: \.(Condition|Project)\b
+
+  builtin-properties-vcxproject-config:
+    name: variable.language.fastbuild
+    match: \.(AdditionalOptions|AdditionalSymbolSearchPaths|ApplicationType|ApplicationTypeRevision|AssemblySearchPath|AumidOverride|BuildLogFile|Config|DebuggerFlavor|DeploymentFiles|DeploymentType|ForcedIncludes|ForcedUsingAssemblies|IncludeSearchPath|IntermediateDirectory|Keyword|LayoutDir|LayoutExtensionFilter|LocalDebuggerCommand|LocalDebuggerCommandArguments|LocalDebuggerEnvironment|LocalDebuggerWorkingDirectory|Output|OutputDirectory|PackagePath|Platform|PlatformToolset|PreprocessorDefinitions|ProjectBuildCommand|ProjectCleanCommand|ProjectRebuildCommand|Target|Xbox360DebuggerCommand)\b
+
+  builtin-properties-vssolution:
+    name: variable.language.fastbuild
+    match: \.(SolutionConfigs|SolutionDependencies|SolutionFolders|SolutionMinimumVisualStudioVersion|SolutionOutput|SolutionProjects|SolutionVisualStudioVersion)\b
+
+  builtin-properties-vssolution-configs:
+    name: variable.language.fastbuild
+    match: \.(Config|Platform|SolutionBuildProject|SolutionConfig|SolutionDeployProjects|SolutionPlatform)\b
+
+  builtin-properties-vssolution-folders:
+    name: variable.language.fastbuild
+    match: \.(Path|Projects)\b
+
+  builtin-properties-vssolution-dependencies:
+    name: variable.language.fastbuild
+    match: \.(Dependencies|Projects)\b
+
+  builtin-properties-xcodeproject:
+    name: variable.language.fastbuild
+    match: \.(ProjectAllowedFileExtensions|ProjectBasePath|ProjectConfigs|ProjectFiles|ProjectFilesToExclude|ProjectInputPaths|ProjectInputPathsExclude|ProjectOutput|ProjectPatternToExclude|XCodeBuildToolArgs|XCodeBuildToolPath|XCodeBuildWorkingDir|XCodeCommandLineArguments|XCodeCommandLineArgumentsDiabled|XCodeDocumentVersioning|XCodeOrganizationName)\b
+
+  builtin-properties-xcodeproject-configs:
+    name: variable.language.fastbuild
+    match: \.(Config|Target|XCodeBaseSDK|XCodeDebugWorkingDir)\b
+
+  builtin-properties:
+    patterns:
+    - include: '#builtin-properties-alias'
+    - include: '#builtin-properties-compiler'
+    - include: '#builtin-properties-copy'
+    - include: '#builtin-properties-copydir'
+    - include: '#builtin-properties-csassembly'
+    - include: '#builtin-properties-dll'
+    - include: '#builtin-properties-exec'
+    - include: '#builtin-properties-executable'
+    - include: '#builtin-properties-library'
+    - include: '#builtin-properties-objectlist'
+    - include: '#builtin-properties-removedir'
+    - include: '#builtin-properties-settings'
+    - include: '#builtin-properties-test'
+    - include: '#builtin-properties-unity'
+    - include: '#builtin-properties-vcxproject'
+    - include: '#builtin-properties-vcxproject-filetype'
+    - include: '#builtin-properties-vcxproject-import'
+    - include: '#builtin-properties-vcxproject-config'
+    - include: '#builtin-properties-vssolution'
+    - include: '#builtin-properties-vssolution-configs'
+    - include: '#builtin-properties-vssolution-folders'
+    - include: '#builtin-properties-vssolution-dependencies'
+    - include: '#builtin-properties-xcodeproject'
+    - include: '#builtin-properties-xcodeproject-configs'
+
+  functions:
+    name: support.function.fastbuild
+    match: \b(Alias|Compiler|Copy|CopyDir|CSAssembly|DLL|Error|Exec|Executable|ForEach|If|Library|ObjectList|Print|RemoveDir|Settings|Test|Unity|Using|VCXProject|VSSolution|XCodeProject)\b
+
+  variables:
+    name: variable.other.fastbuild
+    match: (\.\w+)|(\^\w+)
+
+  preprocessor-other:
+    name: keyword.control.fastbuild
+    match: \s*(#)\s*\b(else|endif|once)\b
+    captures:
+      '1': { name: punctuation.definition.directive.fastbuild }
+      '2': { name: keyword.control.directive.$2.fastbuild }
+
+  preprocessor-include:
+    name: keyword.control.fastbuild
+    match: \s*(#)\s*(include)\s*(".*"|'.*')
+    captures:
+      '1': { name: punctuation.definition.directive.fastbuild }
+      '2': { name: keyword.control.directive.include.fastbuild }
+      '3':
+        patterns: 
+        - include: '#double-quoted-strings'
+        - include: '#single-quoted-strings'
+
+  preprocessor-ifexist:
+    name: keyword.control.fastbuild
+    match: \s*(#)\s*(if)\s*(exists)\s*\((\w+)\s*\)
+    captures:
+      '1': { name: punctuation.definition.directive.fastbuild }
+      '2': { name: keyword.control.directive.if.fastbuild }
+      '3': { name: keyword.control.directive.exists.fastbuild }
+      '4': { name: constant.other.fastbuild }
+
+  preprocessor-if:
+    name: keyword.control.fastbuild
+    match: \s*(#)\s*(if)\s*(!)?\s*(\w+)
+    captures:
+      '1': { name: punctuation.definition.directive.fastbuild }
+      '2': { name: keyword.control.directive.if.fastbuild }
+      '3': { name: keyword.operator.fastbuild }
+      '4': { name: constant.other.fastbuild }
+
+  preprocessor-define:
+    name: keyword.control.fastbuild
+    match: \s*(#)\s*(define|undef)\s*(\w+)
+    captures:
+      '1': { name: punctuation.definition.directive.fastbuild }
+      '2': { name: keyword.control.directive.$2.fastbuild }
+      '3': { name: constant.other.fastbuild }
+
+  preprocessor-import:
+    name: keyword.control.fastbuild
+    match: \s*(#)\s*(import)\s*(\w+)
+    captures:
+      '1': { name: punctuation.definition.directive.fastbuild }
+      '2': { name: keyword.control.directive.import.fastbuild }
+      '3': { name: constant.other.fastbuild }
